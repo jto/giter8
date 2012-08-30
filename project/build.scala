@@ -5,22 +5,21 @@ object Builds extends sbt.Build {
   import ls.Plugin.{lsSettings,LsKeys}
   import sbtbuildinfo.Plugin._
 
-  val g8version = "0.5.0"
-  
+  val g8version = "2012.08.27.fe186af"
+
   val typesafeRepo = "Typesafe repo" at "http://repo.typesafe.com/typesafe/repo/"
   lazy val buildSettings = Defaults.defaultSettings ++ lsSettings ++ Seq(
     organization := "net.databinder.giter8",
     version := g8version,
-    scalaVersion := "2.9.1",
+    scalaVersion := "2.9.2",
     libraryDependencies ++= Seq(
       "org.antlr" % "stringtemplate" % "4.0.2"),
     publishArtifact in (Compile, packageBin) := true,
     homepage :=
       Some(url("https://github.com/n8han/giter8")),
-    publishMavenStyle := true,
+    publishMavenStyle := false,
     publishTo :=
-      Some("releases" at
-           "https://oss.sonatype.org/service/local/staging/deploy/maven2"),
+      Some(Resolver.file("file",  new File(Path.userHome.absolutePath + "/Documents/mvn-repo/snapshots"))(Resolver.ivyStylePatterns)),
     publishArtifact in Test := false,
     licenses := Seq("LGPL v3" -> url("http://www.gnu.org/licenses/lgpl.txt")),
     pomExtra := (
@@ -61,7 +60,7 @@ object Builds extends sbt.Build {
 
   lazy val scaffold = Project("giter8-scaffold", file("scaffold"),
     settings = buildSettings ++ Seq(
-      description := "sbt 0.11 plugin for scaffolding giter8 templates",
+      description := "sbt 0.12 plugin for scaffolding giter8 templates",
       sbtPlugin := true
     )) dependsOn (lib)
 
@@ -70,7 +69,7 @@ object Builds extends sbt.Build {
       description :=
         "shared library for app and plugin",
       libraryDependencies <++= (sbtDependency, sbtVersion) { (sd, sv) =>
-        Seq(sd, "me.lessis" %% "ls" % "0.1.2-RC2")
+        Seq(sd, "me.lessis" %% "ls" % "0.1.2")
       }
     ))
 }
