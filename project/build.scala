@@ -5,7 +5,7 @@ object Builds extends sbt.Build {
   import ls.Plugin.{lsSettings,LsKeys}
   import sbtbuildinfo.Plugin._
 
-  val g8version = "2012.08.27.fe186af"
+  val g8version = "2012.09.03.fe186af"
 
   val typesafeRepo = "Typesafe repo" at "http://repo.typesafe.com/typesafe/repo/"
   lazy val buildSettings = Defaults.defaultSettings ++ lsSettings ++ Seq(
